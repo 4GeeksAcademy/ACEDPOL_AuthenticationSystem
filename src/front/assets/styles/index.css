@@ -1,5 +1,5 @@
 body {
-    background-image: url('./assets/img/Fondo_estrellado.png');
+    background-image: url('../img/Fondo_estrellado.png');
     background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
     background-attachment: fixed; /* Fija la imagen al fondo */
