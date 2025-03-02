@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useGlobalReducer from '../hooks/useGlobalReducer';
-import { registerUser, loginUser, clearMessage, fetchHelloMessage } from '../actions/userActions';
+import { registerUser, loginUser, clearMessage } from '../actions/userActions';
 
 const AuthForm = ({ objetivo }) => {
   const { dispatch, store } = useGlobalReducer();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Limpia el mensaje cuando el componente se desmonte
@@ -18,11 +20,17 @@ const AuthForm = ({ objetivo }) => {
     event.preventDefault();
     const user = { email, password }; // Simulación de usuario
     if (objetivo === 'registrar') {
-        console.log('Registrando usuario...', user);
-        await registerUser(user, dispatch);
+      console.log('Registrando usuario...', user);
+      await registerUser(user, dispatch);
+      setTimeout(() => {
+        navigate('/login'); 
+      }, 1500);
     } else if (objetivo === 'iniciar sesión') {
-        console.log('Iniciando sesión...', email);
-        await loginUser(email, dispatch);
+      console.log('Iniciando sesión...', email);
+      await loginUser(email, dispatch);
+      setTimeout(() => {
+        navigate('/private'); 
+      }, 1500);
     }
     console.log('Email:', email);
     console.log('Password:', password);
