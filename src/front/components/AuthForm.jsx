@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../assets/styles/form.css';  // Global styles for your application
 
 const AuthForm = ({ objetivo }) => {
     const [email, setEmail] = useState('');
