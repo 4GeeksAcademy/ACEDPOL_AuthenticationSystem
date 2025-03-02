@@ -20,10 +20,18 @@ def get_user(id):
     return jsonify(user.serialize()), 200
 
 
+@user_api.route('/users/email/<string:email>', methods=['GET'])
+def get_user_by_email(email):
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+        return jsonify({"msg": "User not found"}), 404
+    return jsonify(user.serialize()), 200
+
+
 @user_api.route('/users', methods=['POST'])
 def create_user():
     body = request.get_json()
-    new_user = User(email=body['email'], password=body['password'])
+    new_user = User(email=body['email'], password=body['password'], is_active=True)
     db.session.add(new_user)
     db.session.commit()
     return jsonify(new_user.serialize()), 201
@@ -65,3 +73,4 @@ def reset_users():
         return jsonify({"msg": "Todos los usuarios han sido eliminados y el contador de ID ha sido reiniciado"}), 200
     except Exception as e:
         return jsonify({"msg": str(e)}), 500
+    

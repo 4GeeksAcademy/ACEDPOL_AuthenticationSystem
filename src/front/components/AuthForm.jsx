@@ -14,13 +14,13 @@ const AuthForm = ({ objetivo }) => {
     };
   }, [dispatch]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const user = { email, password }; // Simulación de usuario
     if (objetivo === 'registrar') {
-      dispatch(registerUser(user));
+      await dispatch(registerUser(user));
     } else if (objetivo === 'iniciar sesión') {
-      dispatch(loginUser(user));
+      await dispatch(loginUser(email));
     }
     console.log('Email:', email);
     console.log('Password:', password);
