@@ -1,5 +1,7 @@
-export const initialStore=()=>{
-  return{
+import { REGISTER_USER, LOGIN_USER, CLEAR_MESSAGE } from './actions/userActions';
+
+export const initialStore = () => {
+  return {
     message: null,
     todos: [
       {
@@ -12,21 +14,37 @@ export const initialStore=()=>{
         title: "Do my homework",
         background: null,
       }
-    ]
-  }
-}
+    ],
+    user: null, // Añadir el estado del usuario
+  };
+};
 
 export default function storeReducer(store, action = {}) {
-  switch(action.type){
+  switch (action.type) {
     case 'add_task':
-
-      const { id,  color } = action.payload
-
+      const { id, color } = action.payload;
       return {
         ...store,
-        todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
+        todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo)),
+      };
+    case REGISTER_USER:
+      return {
+        ...store,
+        user: action.payload,
+        message: 'User registered successfully',
+      };
+    case LOGIN_USER:
+      return {
+        ...store,
+        user: action.payload,
+        message: 'User logged in successfully',
+      };
+    case CLEAR_MESSAGE:
+      return {
+        ...store,
+        message: null,
       };
     default:
-      throw Error('Unknown action.');
-  }    
+      throw new Error('Unknown action.');
+  }
 }

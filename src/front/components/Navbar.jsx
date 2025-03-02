@@ -12,10 +12,10 @@ export const Navbar = () => {
                     <Link className={`nav-link ${location.pathname === "/" && "active"}`} to="/">Inicio</Link>
                 </li> 
                 <li className="nav-item">
-                    <Link className={`nav-link ${location.pathname === "/signup" && "active"}`} to="/signup">Iniciar Sesión</Link>
+                    <Link className={`nav-link ${location.pathname === "/login" && "active"}`} to="/login">Iniciar Sesión</Link>
                 </li> 
                 <li className="nav-item">
-                    <Link className={`nav-link ${location.pathname === "/login" && "active"}`} to="/login">Registrar</Link>
+                    <Link className={`nav-link ${location.pathname === "/signup" && "active"}`} to="/signup">Registrar</Link>
                 </li> 
                 <li className="nav-item">
                     <Link className={`nav-link ${location.pathname === "/private" && "active"}`} to="/private">Zona Privada</Link>
