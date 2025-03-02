@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import useGlobalReducer from '../hooks/useGlobalReducer';
-import { registerUser, loginUser, clearMessage } from '../actions/userActions';
+import { registerUser, loginUser, clearMessage, fetchHelloMessage } from '../actions/userActions';
 
 const AuthForm = ({ objetivo }) => {
-  const { store, dispatch } = useGlobalReducer();
+  const { dispatch, store } = useGlobalReducer();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,9 +18,11 @@ const AuthForm = ({ objetivo }) => {
     event.preventDefault();
     const user = { email, password }; // Simulación de usuario
     if (objetivo === 'registrar') {
-      await dispatch(registerUser(user));
+        console.log('Registrando usuario...', user);
+        await registerUser(user, dispatch);
     } else if (objetivo === 'iniciar sesión') {
-      await dispatch(loginUser(email));
+        console.log('Iniciando sesión...', email);
+        await loginUser(email, dispatch);
     }
     console.log('Email:', email);
     console.log('Password:', password);

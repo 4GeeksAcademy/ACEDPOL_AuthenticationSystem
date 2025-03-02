@@ -2,23 +2,35 @@
 export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
+export const FETCH_HELLO_MESSAGE = 'FETCH_HELLO_MESSAGE';
 
-// Define action creators
-export const registerUser = (user) => async (dispatch) => {
+// export const registerUser = (user) => ({
+//     type: REGISTER_USER,
+//     payload: user,
+// });
+
+// export const loginUser = (email) => ({
+//     type: LOGIN_USER,
+//     payload: email,
+// });
+
+export const registerUser = async (user, dispatch) => {
     try {
-        const response = await fetch('/api/users', {
+        const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(user),
         });
+        console.log('Response status:', response.status);
 
         if (!response.ok) {
             throw new Error('Error creating user');
         }
 
         const data = await response.json();
+        console.log('User registered:', data);
         dispatch({
             type: REGISTER_USER,
             payload: data,
@@ -29,26 +41,55 @@ export const registerUser = (user) => async (dispatch) => {
     }
 };
 
-export const loginUser = (email) => async (dispatch) => {
+export const loginUser = async (email, dispatch) => {
     try {
-        const response = await fetch(`/api/users/email/${email}`, {
+        const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + `api/users/email/${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
+        console.log('Response status:', response.status);
 
         if (!response.ok) {
             throw new Error('Error fetching user');
         }
 
         const data = await response.json();
+        console.log('User fetched:', data);
         dispatch({
             type: LOGIN_USER,
             payload: data,
         });
     } catch (error) {
         console.error('Error fetching user:', error);
+        // Manejar el error según sea necesario
+    }
+};
+
+export const fetchHelloMessage = async (dispatch) => {
+    console.log('Fetching hello message...');
+    try {
+        const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/hello', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+            throw new Error('Error fetching hello message');
+        }
+
+        const data = await response.json();
+        console.log('Hello message fetched:', data);
+        dispatch({
+            type: FETCH_HELLO_MESSAGE,
+            payload: data,
+        });
+    } catch (error) {
+        console.error('Error fetching hello message:', error);
         // Manejar el error según sea necesario
     }
 };

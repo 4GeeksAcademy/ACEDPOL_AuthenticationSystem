@@ -1,4 +1,4 @@
-import { REGISTER_USER, LOGIN_USER, CLEAR_MESSAGE } from './actions/userActions';
+import { REGISTER_USER, LOGIN_USER, CLEAR_MESSAGE, FETCH_HELLO_MESSAGE } from './actions/userActions';
 
 export const initialStore = () => {
   return {
@@ -15,7 +15,8 @@ export const initialStore = () => {
         background: null,
       }
     ],
-    user: null, // Añadir el estado del usuario
+    user: null,
+    helloMessage: null, // Añadir el estado del mensaje de hello
   };
 };
 
@@ -39,12 +40,19 @@ export default function storeReducer(store, action = {}) {
         user: action.payload,
         message: 'User logged in successfully',
       };
+    case FETCH_HELLO_MESSAGE:
+      return {
+        ...store,
+        helloMessage: action.payload,
+        message: 'Hello message fetched successfully',
+      };
     case CLEAR_MESSAGE:
       return {
         ...store,
         message: null,
+        helloMessage: null,
       };
     default:
-      throw new Error('Unknown action.');
+      // throw new Error('Unknown action.');
   }
 }

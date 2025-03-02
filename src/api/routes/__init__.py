@@ -1,9 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
-from api.utils import generate_sitemap, APIException
+from flask import jsonify, Blueprint
 from flask_cors import CORS
 
 from api.routes.user_routes import user_api
@@ -13,8 +11,9 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
-# Register user routes
-api.register_blueprint(user_api, url_prefix='/api')
+
+# Register API models routes:
+api.register_blueprint(user_api) # /api/users
 
 
 @api.route('/hello', methods=['POST', 'GET'])
