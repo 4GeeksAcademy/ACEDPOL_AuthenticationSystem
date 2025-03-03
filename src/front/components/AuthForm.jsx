@@ -27,7 +27,7 @@ const AuthForm = ({ objetivo }) => {
       }, 1500);
     } else if (objetivo === 'iniciar sesión') {
       console.log('Iniciando sesión...', email);
-      await loginUser(email, dispatch);
+      await loginUser(email, password, dispatch);
       setTimeout(() => {
         navigate('/private'); 
       }, 1500);

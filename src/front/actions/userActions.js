@@ -4,16 +4,6 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 export const FETCH_HELLO_MESSAGE = 'FETCH_HELLO_MESSAGE';
 
-// export const registerUser = (user) => ({
-//     type: REGISTER_USER,
-//     payload: user,
-// });
-
-// export const loginUser = (email) => ({
-//     type: LOGIN_USER,
-//     payload: email,
-// });
-
 export const registerUser = async (user, dispatch) => {
     try {
         const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/users', {
@@ -41,13 +31,15 @@ export const registerUser = async (user, dispatch) => {
     }
 };
 
-export const loginUser = async (email, dispatch) => {
+export const loginUser = async (email, password, dispatch) => {
+    console.log('Iniciando sesión para el email:', email);
     try {
-        const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + `api/users/email/${email}`, {
-            method: 'GET',
+        const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/login', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ email, password }),
         });
         console.log('Response status:', response.status);
 
@@ -57,6 +49,7 @@ export const loginUser = async (email, dispatch) => {
 
         const data = await response.json();
         console.log('User fetched:', data);
+        localStorage.setItem('token', data.access_token);  // Guardar el token en localStorage
         dispatch({
             type: LOGIN_USER,
             payload: data,
@@ -69,11 +62,13 @@ export const loginUser = async (email, dispatch) => {
 
 export const fetchHelloMessage = async (dispatch) => {
     console.log('Fetching hello message...');
+    const token = localStorage.getItem('token');
     try {
         const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/hello', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         });
         console.log('Response status:', response.status);
