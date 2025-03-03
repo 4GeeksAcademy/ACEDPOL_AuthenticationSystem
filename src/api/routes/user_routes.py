@@ -12,6 +12,8 @@ def login():
 
     user = User.query.filter_by(email=email).first()
     if user and user.password == password:
+        user.is_active = True  # Marcar al usuario como activo
+        db.session.commit()
         access_token = create_access_token(identity=user.id)
         return jsonify(access_token=access_token), 200
     else:

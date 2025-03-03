@@ -32,7 +32,6 @@ export const registerUser = async (user, dispatch) => {
 };
 
 export const loginUser = async (email, password, dispatch) => {
-    console.log('Iniciando sesión para el email:', email);
     try {
         const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/login', {
             method: 'POST',
@@ -53,6 +52,7 @@ export const loginUser = async (email, password, dispatch) => {
         dispatch({
             type: LOGIN_USER,
             payload: data,
+            token: data.access_token,
         });
     } catch (error) {
         console.error('Error fetching user:', error);
@@ -62,13 +62,11 @@ export const loginUser = async (email, password, dispatch) => {
 
 export const fetchHelloMessage = async (dispatch) => {
     console.log('Fetching hello message...');
-    const token = localStorage.getItem('token');
     try {
         const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/hello', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
         });
         console.log('Response status:', response.status);

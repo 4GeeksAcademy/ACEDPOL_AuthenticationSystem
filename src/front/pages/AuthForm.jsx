@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useGlobalReducer from '../hooks/useGlobalReducer';
 import { registerUser, loginUser, clearMessage } from '../actions/userActions';
 
-const AuthForm = ({ objetivo }) => {
+export const AuthForm = ({ objetivo }) => {
   const { dispatch, store } = useGlobalReducer();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,5 +70,3 @@ const AuthForm = ({ objetivo }) => {
     </div>
   );
 };
-
-export default AuthForm;

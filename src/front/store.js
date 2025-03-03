@@ -17,6 +17,7 @@ export const initialStore = () => {
     ],
     user: null,
     helloMessage: null, // Añadir el estado del mensaje de hello
+    token: localStorage.getItem('token') || null,
   };
 };
 
@@ -39,6 +40,7 @@ export default function storeReducer(store, action = {}) {
         ...store,
         user: action.payload,
         message: 'User logged in successfully',
+        token: action.token
       };
     case FETCH_HELLO_MESSAGE:
       return {
