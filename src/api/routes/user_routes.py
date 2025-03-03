@@ -11,10 +11,10 @@ def login():
     password = body.get('password')
 
     user = User.query.filter_by(email=email).first()
-    if user and user.password == password:
+    if user and user.verify_password(password):
         user.is_active = True  # Marcar al usuario como activo
         db.session.commit()
-        access_token = create_access_token(identity=str(user.id))
+        access_token = create_access_token(identity=str(user.id))  # Convertir user.id a cadena
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({"msg": "Bad email or password"}), 401
@@ -98,4 +98,19 @@ def reset_users():
         return jsonify({"msg": "Todos los usuarios han sido eliminados y el contador de ID ha sido reiniciado"}), 200
     except Exception as e:
         return jsonify({"msg": str(e)}), 500
+
+@user_api.route('/register', methods=['POST'])
+def register():
+    body = request.get_json()
+    email = body.get('email')
+    password = body.get('password')
+
+    if User.query.filter_by(email=email).first():
+        return jsonify({"msg": "User already exists"}), 400
+
+    new_user = User(email=email, is_active=False)
+    new_user.password = password  # Esto codificará la contraseña
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify(new_user.serialize()), 201
 

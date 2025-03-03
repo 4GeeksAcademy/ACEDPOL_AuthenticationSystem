@@ -7,7 +7,7 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const registerUser = async (user, dispatch) => {
     try {
-        const response = await fetch(import.meta.env.VITE_BACKEND_URL + 'api/users', {
+        const response = await fetch(import.meta.env.VITE_BACKEND_URL + 'api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export const loginUser = async (email, password, dispatch) => {
         localStorage.setItem('token', data.access_token);  // Guardar el token en localStorage
         dispatch({
             type: LOGIN_USER,
-            payload: data,
+            payload: data.access_token,
             user: email,
         });
     } catch (error) {

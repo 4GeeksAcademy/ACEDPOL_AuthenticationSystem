@@ -38,7 +38,7 @@ export default function storeReducer(store, action = {}) {
       return {
         ...store,
         user: action.user,
-        token: action.payload.access_token,
+        token: action.payload,
         message: 'User logged in successfully',
       };
     case LOGOUT_USER:
