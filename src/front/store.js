@@ -1,4 +1,4 @@
-import { REGISTER_USER, LOGIN_USER, CLEAR_MESSAGE, FETCH_HELLO_MESSAGE } from './actions/userActions';
+import { REGISTER_USER, LOGIN_USER, CLEAR_MESSAGE, FETCH_HELLO_MESSAGE, LOGOUT_USER } from './actions/userActions';
 
 export const initialStore = () => {
   return {
@@ -15,7 +15,7 @@ export const initialStore = () => {
         background: null,
       }
     ],
-    user: null,
+    user: localStorage.getItem('user') || null,
     helloMessage: null, // Añadir el estado del mensaje de hello
     token: localStorage.getItem('token') || null,
   };
@@ -38,9 +38,16 @@ export default function storeReducer(store, action = {}) {
     case LOGIN_USER:
       return {
         ...store,
-        user: action.payload,
+        user: action.user,
         message: 'User logged in successfully',
-        token: action.token
+        token: action.payload.access_token,
+      };
+    case LOGOUT_USER:
+      return {
+        ...store,
+        user: null,
+        token: null,
+        message: 'User logged out successfully',
       };
     case FETCH_HELLO_MESSAGE:
       return {

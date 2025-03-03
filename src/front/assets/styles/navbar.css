@@ -41,3 +41,28 @@ hr.dropdown-divider {
     opacity: 0.5;
 }
 
+
+.btn-toggle {
+    background-color: transparent;
+    border: solid 1px;
+    transition: color .15s ease-in-out, border-color .15s ease-in-out;
+}
+.btn-toggle.active {
+    color: cadetblue;
+    border-color: cadetblue;
+}
+.btn-toggle.disabled {
+    font-weight: 400;
+    color: cadetblue;
+    border-color: transparent;
+    pointer-events: none;
+    opacity: 0.5;
+}
+.btn-toggle:hover {
+    color: whitesmoke;
+    border-color: #f8f9fa;
+}
+.btn-no-outline {
+    outline: none !important;
+    box-shadow: none !important;
+}

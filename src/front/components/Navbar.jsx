@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import useGlobalReducer from '../hooks/useGlobalReducer';
 import '../assets/styles/navbar.css'  // Global styles for your application
+import { LogOut } from "./LogOut";
 
 export const Navbar = () => {
     const location = useLocation();
@@ -29,6 +30,7 @@ export const Navbar = () => {
                     </Link>
                 </li> 
             </ul>
+            <LogOut />
         </div>
     );
 };

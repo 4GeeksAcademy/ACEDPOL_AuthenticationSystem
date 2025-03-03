@@ -3,6 +3,7 @@ export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 export const FETCH_HELLO_MESSAGE = 'FETCH_HELLO_MESSAGE';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const registerUser = async (user, dispatch) => {
     try {
@@ -47,12 +48,13 @@ export const loginUser = async (email, password, dispatch) => {
         }
 
         const data = await response.json();
-        console.log('User fetched:', data);
+        console.log('User fetched:', email, data);
+        localStorage.setItem('user', email);  // Guardar el usuario en localStorage
         localStorage.setItem('token', data.access_token);  // Guardar el token en localStorage
         dispatch({
             type: LOGIN_USER,
             payload: data,
-            token: data.access_token,
+            user: email,
         });
     } catch (error) {
         console.error('Error fetching user:', error);
@@ -86,6 +88,10 @@ export const fetchHelloMessage = async (dispatch) => {
         // Manejar el error según sea necesario
     }
 };
+
+export const logoutUser = () => ({
+    type: LOGOUT_USER,
+});
 
 export const clearMessage = () => ({
     type: CLEAR_MESSAGE,
