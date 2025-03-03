@@ -14,10 +14,22 @@ def login():
     if user and user.password == password:
         user.is_active = True  # Marcar al usuario como activo
         db.session.commit()
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({"msg": "Bad email or password"}), 401
+
+@user_api.route('/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if user:
+        user.is_active = False  # Marcar al usuario como inactivo
+        db.session.commit()
+        return jsonify({"msg": "User logged out successfully"}), 200
+    else:
+        return jsonify({"msg": "User not found"}), 404
 
 @user_api.route('/users', methods=['GET'])
 def get_all_users():
@@ -44,7 +56,7 @@ def get_user_by_email(email):
 @user_api.route('/users', methods=['POST'])
 def create_user():
     body = request.get_json()
-    new_user = User(email=body['email'], password=body['password'], is_active=True)
+    new_user = User(email=body['email'], password=body['password'], is_active=False)
     db.session.add(new_user)
     db.session.commit()
     return jsonify(new_user.serialize()), 201

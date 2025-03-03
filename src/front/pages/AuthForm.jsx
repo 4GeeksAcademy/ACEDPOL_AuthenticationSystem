@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useGlobalReducer from '../hooks/useGlobalReducer';
 import { registerUser, loginUser, clearMessage } from '../actions/userActions';
 
@@ -8,13 +8,14 @@ export const AuthForm = ({ objetivo }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // Limpia el mensaje cuando el componente se desmonte
-    return () => {
-      dispatch(clearMessage());
-    };
-  }, [dispatch]);
+    dispatch(clearMessage());
+    setEmail('');
+    setPassword('');
+  }, [location.pathname]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

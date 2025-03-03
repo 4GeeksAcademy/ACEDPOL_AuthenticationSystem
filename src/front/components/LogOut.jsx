@@ -1,16 +1,17 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import useGlobalReducer from '../hooks/useGlobalReducer';
 import '../assets/styles/navbar.css'  // Global styles for your application
+import { logoutUser } from '../actions/userActions';
 
 export const LogOut = () => {
     const { dispatch, store } = useGlobalReducer();
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
-        dispatch({
-            type: 'LOGOUT_USER'
-        });
-        localStorage.removeItem('token');
-        window.location.reload();
+        console.log('Cerrando sesión...');
+        logoutUser(dispatch);
+        navigate('/login');
     }
 
     return (

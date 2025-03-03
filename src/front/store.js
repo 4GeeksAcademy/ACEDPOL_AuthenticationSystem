@@ -32,15 +32,14 @@ export default function storeReducer(store, action = {}) {
     case REGISTER_USER:
       return {
         ...store,
-        user: action.payload,
         message: 'User registered successfully',
       };
     case LOGIN_USER:
       return {
         ...store,
         user: action.user,
-        message: 'User logged in successfully',
         token: action.payload.access_token,
+        message: 'User logged in successfully',
       };
     case LOGOUT_USER:
       return {

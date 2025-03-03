@@ -24,11 +24,9 @@ export const registerUser = async (user, dispatch) => {
         console.log('User registered:', data);
         dispatch({
             type: REGISTER_USER,
-            payload: data,
         });
     } catch (error) {
         console.error('Error creating user:', error);
-        // Manejar el error según sea necesario
     }
 };
 
@@ -58,7 +56,6 @@ export const loginUser = async (email, password, dispatch) => {
         });
     } catch (error) {
         console.error('Error fetching user:', error);
-        // Manejar el error según sea necesario
     }
 };
 
@@ -85,13 +82,36 @@ export const fetchHelloMessage = async (dispatch) => {
         });
     } catch (error) {
         console.error('Error fetching hello message:', error);
-        // Manejar el error según sea necesario
     }
 };
 
-export const logoutUser = () => ({
-    type: LOGOUT_USER,
-});
+export const logoutUser = async (dispatch) => {
+    try {
+        const email = localStorage.getItem('user');
+        console.log('Logging out user:', email);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/logout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+            throw new Error('Error logging out');
+        }
+
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        dispatch({
+            type: LOGOUT_USER,
+        });
+    } catch (error) {
+        console.error('Error logging out:', error);
+    }
+};
 
 export const clearMessage = () => ({
     type: CLEAR_MESSAGE,
