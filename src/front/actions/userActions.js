@@ -6,7 +6,7 @@ export const FETCH_HELLO_MESSAGE = 'FETCH_HELLO_MESSAGE';
 
 export const registerUser = async (user, dispatch) => {
     try {
-        const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/users', {
+        const response = await fetch(import.meta.env.VITE_BACKEND_URL + 'api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const registerUser = async (user, dispatch) => {
 
 export const loginUser = async (email, password, dispatch) => {
     try {
-        const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/login', {
+        const response = await fetch(import.meta.env.VITE_BACKEND_URL + 'api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export const loginUser = async (email, password, dispatch) => {
 export const fetchHelloMessage = async (dispatch) => {
     console.log('Fetching hello message...');
     try {
-        const response = await fetch('https://silver-barnacle-rpvgvppwqwqh56vp-3001.app.github.dev/' + 'api/hello', {
+        const response = await fetch(import.meta.env.VITE_BACKEND_URL + 'api/hello', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
