@@ -22,16 +22,10 @@ export const AuthForm = ({ objetivo }) => {
     const user = { email, password }; // Simulación de usuario
     if (objetivo === 'registrar') {
       console.log('Registrando usuario...', user);
-      await registerUser(user, dispatch);
-      setTimeout(() => {
-        navigate('/login'); 
-      }, 1500);
+      await registerUser(user, dispatch, navigate);
     } else if (objetivo === 'iniciar sesión') {
       console.log('Iniciando sesión...', email);
-      await loginUser(email, password, dispatch);
-      setTimeout(() => {
-        navigate('/private'); 
-      }, 1500);
+      await loginUser(email, password, dispatch, navigate);
     }
     console.log('Email:', email);
     console.log('Password:', password);

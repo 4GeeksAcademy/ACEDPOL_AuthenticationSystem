@@ -1,4 +1,4 @@
-import { REGISTER_USER, LOGIN_USER, CLEAR_MESSAGE, FETCH_HELLO_MESSAGE, LOGOUT_USER } from './actions/userActions';
+import { REGISTER_USER, LOGIN_USER, CLEAR_MESSAGE, LOGOUT_USER } from './actions/userActions';
 
 export const initialStore = () => {
   return {
@@ -16,12 +16,12 @@ export const initialStore = () => {
       }
     ],
     user: localStorage.getItem('user') || null,
-    helloMessage: null, // Añadir el estado del mensaje de hello
     token: localStorage.getItem('token') || null,
   };
 };
 
 export default function storeReducer(store, action = {}) {
+  // Update the store based on the action type
   switch (action.type) {
     case 'add_task':
       const { id, color } = action.payload;
@@ -30,37 +30,23 @@ export default function storeReducer(store, action = {}) {
         todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo)),
       };
     case REGISTER_USER:
-      return {
-        ...store,
-        message: 'User registered successfully',
-      };
     case LOGIN_USER:
-      return {
-        ...store,
-        user: action.user,
-        token: action.payload,
-        message: 'User logged in successfully',
-      };
     case LOGOUT_USER:
+      // Iniciar un temporizador de 3 segundos para limpiar el mensaje
+      setTimeout(() => {
+        action.dispatch({ type: CLEAR_MESSAGE });
+      }, 3000);
       return {
         ...store,
-        user: null,
-        token: null,
-        message: 'User logged out successfully',
-      };
-    case FETCH_HELLO_MESSAGE:
-      return {
-        ...store,
-        helloMessage: action.payload,
-        message: 'Hello message fetched successfully',
+        ...action.payload,
+        message: action.message,
       };
     case CLEAR_MESSAGE:
       return {
         ...store,
         message: null,
-        helloMessage: null,
       };
     default:
-      // throw new Error('Unknown action.');
+      return store;
   }
 }

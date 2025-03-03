@@ -10,8 +10,7 @@ export const LogOut = () => {
 
     const handleSubmit = () => {
         console.log('Cerrando sesión...');
-        logoutUser(dispatch);
-        navigate('/login');
+        logoutUser(dispatch, navigate);
     }
 
     return (
